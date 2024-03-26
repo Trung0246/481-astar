@@ -10,6 +10,8 @@ def generate_grid(size: int = 10) -> np.ndarray:
 	return np.random.choice(list(string.ascii_lowercase), size=(size, size))
 
 # Check if all letters needed for the word are in the grid
+# Time Complexity: O(n*m), where n and m are the dimensions of the grid
+# Space Complexity: O(1), just for the iteration, no extra storage
 def can_form_word(grid: np.ndarray, word: str) -> bool:
 	grid_letters = ''.join(grid.flatten())
 	for letter in word:
@@ -17,11 +19,12 @@ def can_form_word(grid: np.ndarray, word: str) -> bool:
 			return False
 	return True
 
-# BFS implementation for horizontal and vertical movements
+# BFS implementation for horizontal and vertical movements+
+# Time Complexity: O(n*m*k), where k is the length of the word.
+# This is due to potentially scanning the entire grid for each character in the word.
+# Space Complexity: O(n*m) primarily due to the storage of the grid and the queue used in BFS.
 def bfs_adjusted(grid: np.ndarray, word: str) -> List[Tuple[int, int]]:
 	# Check if all letters needed for the word are present in the grid
-	# Time Complexity: O(n*m), where n and m are the dimensions of the grid
-	# Space Complexity: O(1), just for the iteration, no extra storage
 	if not can_form_word(grid, word):
 		return []  # If any letter is missing, the word can't be formed
 	
@@ -85,10 +88,6 @@ def bfs_adjusted(grid: np.ndarray, word: str) -> List[Tuple[int, int]]:
 	# Return the shortest path found, or an empty list if none is found
 	return shortest_path if shortest_path else []
 
-# Time Complexity of bfs_adjusted: O(n*m*k), where k is the length of the word.
-# This is due to potentially scanning the entire grid for each character in the word.
-# Space Complexity: O(n*m) primarily due to the storage of the grid and the queue used in BFS.
-
 def print_path(grid: np.ndarray, path: List[Tuple[int, int]], word: str):
 	path_set = set(path)
 	word_chars = set(word)
@@ -105,12 +104,15 @@ def print_path(grid: np.ndarray, path: List[Tuple[int, int]], word: str):
 				(
 					f"\033[92m{char.upper()}\033[0m"
 						if (row_index, col_index) in path_set and
-							(row_index, col_index) in path_word_indices.keys() and
-							step_index >= path_word_indices[(row_index, col_index)]
+							(row_index, col_index) in path_word_indices.keys()
 						else (
 							f"\033[93m{char.upper()}\033[0m"
 							if (row_index, col_index) in path[:step_index]
-							else char
+							else (
+								f"\033[94m{char.upper()}\033[0m"
+								if (row_index, col_index) in path_set
+								else char
+							)
 						)
 				)
 				for col_index, char in enumerate(row)
