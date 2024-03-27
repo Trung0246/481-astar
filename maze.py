@@ -123,7 +123,7 @@ def print_path(grid: np.ndarray, path: List[Tuple[int, int]], word: str):
 # Example usage
 grid = generate_grid()
 word = "thin"
-path_adjusted = bfs_adjusted(grid, word)
+path_adjusted = bfs_char(grid, word)
 
 if path_adjusted:
 	print_path(grid, path_adjusted, word)
