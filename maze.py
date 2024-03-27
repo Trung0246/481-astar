@@ -23,7 +23,7 @@ def can_form_word(grid: np.ndarray, word: str) -> bool:
 # Time Complexity: O(n*m*k), where k is the length of the word.
 # This is due to potentially scanning the entire grid for each character in the word.
 # Space Complexity: O(n*m) primarily due to the storage of the grid and the queue used in BFS.
-def bfs_adjusted(grid: np.ndarray, word: str) -> List[Tuple[int, int]]:
+def bfs_char(grid: np.ndarray, word: str) -> List[Tuple[int, int]]:
 	# Check if all letters needed for the word are present in the grid
 	if not can_form_word(grid, word):
 		return []  # If any letter is missing, the word can't be formed
